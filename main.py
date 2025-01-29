@@ -63,7 +63,6 @@ def create_table():
             {'role': 'user', 'content': get_prompt()},
             {'role': 'user', 'content': create_request_message()}
         ],
-        temperature=0
     )
     return r.choices[0].message.content
 
