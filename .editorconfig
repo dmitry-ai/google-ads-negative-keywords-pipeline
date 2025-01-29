@@ -1,0 +1,7 @@
+# 2025-01-29 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+root = true
+[*]
+indent_size = 4
+indent_style = tab
+[*.py]
+indent_style = space
