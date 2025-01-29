@@ -67,39 +67,40 @@ The value of this field must be the list of subpoints from point 7, separated by
 Below is an example with only 5 lines. You will have as many lines as determined by point 8.2.
 ```json
 [
-  {
-    "line_number": 1,
-    "search_query": "railcar mover rental",
-    "relevant": "no",
-    "reasons_for_irrelevance": "7.1, 7.3",
-    "google_ads_rule": "-`railcar mover` -rental"
-  },
-  {
-    "line_number": 2,
-    "search_query": "#1 pet mover",
-    "relevant": "no",
-    "reasons_for_irrelevance": "7.1, 7.3",
-    "google_ads_rule": "-`pet mover`"
-  },
-  {
-    "line_number": 3,
-    "search_query": "#1 us pet mover",
-    "relevant": "no",
-    "reasons_for_irrelevance": "7.1, 7.3",
-    "google_ads_rule": "-`pet mover` -`us pet`"
-  },
-  {
-    "line_number": 4,
-    "search_query": "√© preciso mover",
-    "relevant": "no",
-    "reasons_for_irrelevance": "7.1, 7.4",
-    "google_ads_rule": "-`preciso mover`"
-  },
-  {
-    "line_number": 5,
-    "search_query": "02 01 mover 4029357733 can s618034583078548 card 3466",
-    "relevant": "no",
-    "reasons_for_irrelevance": "7.1",
-    "google_ads_rule": "-`card` -`can`"
-  }
+	{
+		"line_number": 1,
+		"search_query": "railcar mover rental",
+		"relevant": "no",
+		"reasons_for_irrelevance": [7.1, 7.3],
+		"rules": ["-railcar mover", "-rental"]
+	},
+	{
+		"line_number": 2,
+		"search_query": "#1 pet mover",
+		"relevant": "no",
+		"reasons_for_irrelevance": [7.1, 7.3],
+		"rules": ["-pet mover"]
+	},
+	{
+		"line_number": 3,
+		"search_query": "#1 us pet mover",
+		"relevant": "no",
+		"reasons_for_irrelevance": [7.1, 7.3],
+		"rules": ["-pet mover", "-us pet"]
+	},
+	{
+		"line_number": 4,
+		"search_query": "√© preciso mover",
+		"relevant": "no",
+		"reasons_for_irrelevance": [7.1, 7.4],
+		"rules": ["-preciso mover"]
+	},
+	{
+		"line_number": 5,
+		"search_query": "02 01 mover 4029357733 can s618034583078548 card 3466",
+		"relevant": "no",
+		"reasons_for_irrelevance": [7.1],
+		"rules": ["-card", "-can"]
+	}
 ]
+```
