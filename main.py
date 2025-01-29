@@ -34,7 +34,7 @@ railcar mover rental
 1 day mover salary
 
 ## 6. Твоя задача
-Выполни 4.2 посредством разработки программы на языке Python, которая использует API OpenAI.
+Выполни 4.2.
 
 ## 7. Критерии нерелевантности поискового запроса
 Считай запрос нерелевантным, если для этого запроса справедливо хотя бы одно из утверждений этого пункта 7:
@@ -60,7 +60,7 @@ def create_table():
     r = client.chat.completions.create(
         model='o1-preview',
         messages=[
-            {'role': 'user', 'content': get_prompt()},
+            {'role': 'assistant', 'content': get_prompt()},
             {'role': 'user', 'content': create_request_message()}
         ],
     )
