@@ -10,7 +10,8 @@ def get_queries():
         return f.read()
 
 def create_table():
-    load_dotenv()
+    load_dotenv('config/public.env')
+    load_dotenv('config/private.env')
     openai.api_key = os.getenv('OPENAI_KEY')
     client = openai.OpenAI()
     r = client.chat.completions.create(
