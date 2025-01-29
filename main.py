@@ -1,6 +1,7 @@
-import os
-import openai
 from dotenv import load_dotenv
+import json
+import openai
+import os
 def get_prompt():
     with open(os.path.join(os.path.dirname(__file__), 'prompt.md'), 'r', encoding='utf-8') as f:
         return f.read()
