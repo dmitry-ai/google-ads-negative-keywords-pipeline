@@ -7,9 +7,20 @@ def get_prompt():
     with open(os.path.join(os.path.dirname(__file__), 'prompt.md'), 'r', encoding='utf-8') as f:
         return f.read()
 
-def get_queries():
+def read_in_batches(batch_size, max_batches):
     with open(os.path.join(os.path.dirname(__file__), 'queries.txt'), 'r', encoding='utf-8') as f:
-        return f.read()
+        lines = []
+        batches_count = 0
+        for line in f:
+            lines.append(line.strip('\n'))
+            if len(lines) == batch_size:
+                yield lines
+                batches_count += 1
+                if batches_count == max_batches:
+                    return
+                lines = []
+        if lines and batches_count < max_batches:
+            yield lines
 
 def create_table():
     load_dotenv('config/public.env')
@@ -17,35 +28,23 @@ def create_table():
     openai.api_key = os.getenv('OPENAI_API_KEY')
     batch_size = int(os.getenv('dfBatchSize', 5))
     max_batches = int(os.getenv('dfMaxBatches', 2))
-    all_queries = get_queries().splitlines()
-    chunks = [all_queries[i:i+batch_size] for i in range(0, len(all_queries), batch_size)]
-    chunks = chunks[:max_batches]
     prompt = get_prompt()
     all_results = []
     offset = 0
-    for c in chunks:
-        joined_queries = '\n'.join(c)
+    for chunk in read_in_batches(batch_size, max_batches):
+        joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
-        r = client.chat.completions.create(model='o1-preview', messages=[{'role': 'user', 'content': content}])
-        raw_response = r.choices[0].message.content
-        try:
-            chunk_json = json.loads(raw_response)
-        except json.JSONDecodeError:
-            print('OpenAI returned an invalid JSON response:')
-            print(raw_response)
-            exit(1)
+        r = client.chat.completions.create(
+            model='o1-preview',
+            messages=[{'role': 'user', 'content': content}]
+        )
+        chunk_json = json.loads(r.choices[0].message.content)
         for obj in chunk_json:
             obj['line_number'] = offset + obj['line_number']
             all_results.append(obj)
-        offset += len(c)
-    rules_set = set()
-    for obj in all_results:
-        if 'rules' in obj:
-            for rule in obj['rules']:
-                rules_set.add(rule)
-    rules_list = sorted(rules_set)
-    return '\n'.join(f'- {rule}' for rule in rules_list)
+        offset += len(chunk)
+    return json.dumps(all_results, ensure_ascii=False, indent=4)
 
 def main():
     table = create_table()
