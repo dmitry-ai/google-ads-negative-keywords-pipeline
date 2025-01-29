@@ -18,16 +18,7 @@ I want to accomplish point 4 in the following way:
 4.2) For each element of the list of search queries (point 5 below), determine whether this query is relevant to my company’s services.
 
 ## 5. List of search queries
-railcar mover rental
-#1 pet mover
-#1 us pet mover
-√© preciso mover
-02 01 mover 4029357733 can s618034583078548 card 3466
-02 honda crv does not move then starts moving
-1 2 x 170 inch belt mover deck
-1 64 round bale mover
-1 bedroom long distance mover canada
-1 day mover salary
+`QUERIES`
 
 ## 6. Your task
 Fulfill point 4.2.
