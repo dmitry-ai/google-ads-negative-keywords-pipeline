@@ -27,7 +27,13 @@ def create_table():
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
         r = client.chat.completions.create(model='o1-preview', messages=[{'role': 'user', 'content': content}])
-        chunk_json = json.loads(r.choices[0].message.content)
+        raw_response = r.choices[0].message.content
+        try:
+            chunk_json = json.loads(raw_response)
+        except json.JSONDecodeError:
+            print('OpenAI returned an invalid JSON response:')
+            print(raw_response)
+            exit(1)
         for obj in chunk_json:
             obj['line_number'] = offset + obj['line_number']
             all_results.append(obj)
