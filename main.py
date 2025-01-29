@@ -21,6 +21,7 @@ def create_table():
     chunks = chunks[:max_batches]
     prompt = get_prompt()
     all_results = []
+    unique_rules = set()
     offset = 0
     for c in chunks:
         joined_queries = '\n'.join(c)
@@ -36,9 +37,12 @@ def create_table():
             exit(1)
         for obj in chunk_json:
             obj['line_number'] = offset + obj['line_number']
-            all_results.append(obj)
+            if obj.get('relevant') == 'no' and 'rules' in obj:
+                for rule in obj['rules']:
+                    unique_rules.add(rule)
         offset += len(c)
-    return json.dumps(all_results, ensure_ascii=False, indent=4)
+    sorted_rules = sorted(unique_rules)
+    return '\n'.join(f'- {r}' for r in sorted_rules)
 
 def main():
     table = create_table()
