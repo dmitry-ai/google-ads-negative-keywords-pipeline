@@ -50,7 +50,12 @@ def create_table():
             obj['line_number'] = offset + obj['line_number']
             all_results.append(obj)
         offset += len(chunk)
-    return json.dumps(all_results, ensure_ascii=False, indent=4)
+    rules_list = []
+    for obj in all_results:
+        if obj.get('relevant') == 'no':
+            rules_list.extend(obj.get('rules', []))
+    rules_list.sort()
+    return '\n'.join(rules_list)
 
 def main():
     table = create_table()

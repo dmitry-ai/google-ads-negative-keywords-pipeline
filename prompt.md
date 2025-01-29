@@ -61,7 +61,7 @@ Each JSON object must have exactly 5 fields:
 The value of this field must be exactly one word: «yes» or «no».  
 8.4.4) `reasons_for_irrelevance`: if the value of the field in point 8.4.3 is «no», then specify the exact subpoints of point 7 above, on the basis of which you made the decision.  
 The value of this field must be the list of subpoints from point 7, separated by commas.  
-8.4.5) `google_ads_rule`: if the value of the field in point 8.4.3 is «no», then specify the rules for Google Ads in Google Ads format that will carry out the task from point 4 for that specific query.
+8.4.5) `rules`: if the value of the field in point 8.4.3 is «no», then specify the rules for Google Ads in Google Ads format that will carry out the task from point 4 for that specific query.
 
 ## 9. Example of the correct JSON answer format
 Below is an example with only 5 lines. You will have as many lines as determined by point 8.2.
