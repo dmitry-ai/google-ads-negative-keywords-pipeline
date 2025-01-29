@@ -24,7 +24,8 @@ def create_table():
     for c in chunks:
         joined_queries = '\n'.join(c)
         content = prompt.replace('`QUERIES`', joined_queries)
-        r = openai.ChatCompletion.create(model='o1-preview', messages=[{'role': 'user', 'content': content}])
+        client = openai.OpenAI()
+        r = client.chat.completions.create(model='o1-preview', messages=[{'role': 'user', 'content': content}])
         chunk_json = json.loads(r.choices[0].message.content)
         for obj in chunk_json:
             obj['line_number'] = offset + obj['line_number']
