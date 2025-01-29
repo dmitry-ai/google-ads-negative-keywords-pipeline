@@ -60,7 +60,7 @@ def create_table():
     r = client.chat.completions.create(
         model='o1-preview',
         messages=[
-            {'role': 'system', 'content': get_prompt()},
+            {'role': 'user', 'content': get_prompt()},
             {'role': 'user', 'content': create_request_message()}
         ],
         temperature=0
