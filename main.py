@@ -56,6 +56,7 @@ def create_request_message():
 def create_table():
     load_dotenv()
     openai.api_key = os.getenv('OPENAI_KEY')
+    client = openai.OpenAI()
     r = client.chat.completions.create(
         model='o1-preview',
         messages=[
