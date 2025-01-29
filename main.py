@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import json
 import openai
 import os
+
 def get_prompt():
     with open(os.path.join(os.path.dirname(__file__), 'prompt.md'), 'r', encoding='utf-8') as f:
         return f.read()
@@ -16,12 +17,11 @@ def create_table():
     openai.api_key = os.getenv('OPENAI_API_KEY')
     batch_size = int(os.getenv('dfBatchSize', 5))
     max_batches = int(os.getenv('dfMaxBatches', 2))
-    all_queries = get_queries()
+    all_queries = get_queries().splitlines()
     chunks = [all_queries[i:i+batch_size] for i in range(0, len(all_queries), batch_size)]
     chunks = chunks[:max_batches]
     prompt = get_prompt()
     all_results = []
-    unique_rules = set()
     offset = 0
     for c in chunks:
         joined_queries = '\n'.join(c)
@@ -37,12 +37,15 @@ def create_table():
             exit(1)
         for obj in chunk_json:
             obj['line_number'] = offset + obj['line_number']
-            if obj.get('relevant') == 'no' and 'rules' in obj:
-                for rule in obj['rules']:
-                    unique_rules.add(rule)
+            all_results.append(obj)
         offset += len(c)
-    sorted_rules = sorted(unique_rules)
-    return '\n'.join(f'- {r}' for r in sorted_rules)
+    rules_set = set()
+    for obj in all_results:
+        if 'rules' in obj:
+            for rule in obj['rules']:
+                rules_set.add(rule)
+    rules_list = sorted(rules_set)
+    return '\n'.join(f'- {rule}' for rule in rules_list)
 
 def main():
     table = create_table()
