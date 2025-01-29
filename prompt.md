@@ -106,4 +106,7 @@ Below is an example with only 5 lines. You will have as many lines as determined
 ```
 
 ## 10. 
+### 10.1.
 Do not return anything besides JSON.
+### 10.2.
+Do not wrap the JSON response in backticks (```json) or anything else.
