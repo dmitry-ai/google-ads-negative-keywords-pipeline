@@ -48,14 +48,14 @@ def main():
             .create(model='o1', messages=[{'role': 'user', 'content': content}]) \
             .choices[0].message.content
         try:
-            j = json.loads(res)
+            ᛡjson = json.loads(res)
         except json.JSONDecodeError:
             print('OpenAI returned an invalid JSON response:')
             print(res)
             exit(1)
-        for obj in j:
-            obj['line_number'] = offset + obj['line_number']
-            all_results.append(obj)
+        for i in ᛡjson:
+            i['line_number'] = offset + i['line_number']
+            all_results.append(i)
         offset += len(chunk)
     r = []
     for obj in all_results:
