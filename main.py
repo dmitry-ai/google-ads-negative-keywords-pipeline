@@ -44,14 +44,16 @@ def main():
         joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
-        raw_response = client.chat.completions.create(model='o1', messages=[{'role': 'user', 'content': content}]).choices[0].message.content
+        res = client.chat.completions \
+            .create(model='o1', messages=[{'role': 'user', 'content': content}]) \
+            .choices[0].message.content
         try:
-            chunk_json = json.loads(raw_response)
+            j = json.loads(res)
         except json.JSONDecodeError:
             print('OpenAI returned an invalid JSON response:')
-            print(raw_response)
+            print(res)
             exit(1)
-        for obj in chunk_json:
+        for obj in j:
             obj['line_number'] = offset + obj['line_number']
             all_results.append(obj)
         offset += len(chunk)
