@@ -36,7 +36,7 @@ def create_table():
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
         r = client.chat.completions.create(
-            model='o1-preview',
+            model='o1',
             messages=[{'role': 'user', 'content': content}]
         )
         raw_response = r.choices[0].message.content
