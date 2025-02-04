@@ -26,8 +26,8 @@ def create_table():
     load_dotenv('config/public.env')
     load_dotenv('config/private.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
-    batch_size = int(os.getenv('dfBatchSize', 5))
-    max_batches = int(os.getenv('dfMaxBatches', 2))
+    batch_size = int(os.getenv('dfBatchSize'))
+    max_batches = int(os.getenv('dfMaxBatches'))
     prompt = get_prompt()
     all_results = []
     offset = 0
