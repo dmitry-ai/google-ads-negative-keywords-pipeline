@@ -10,11 +10,11 @@ import json
 import openai
 import os
 
-def get_file_path(name):
-    return os.path.join(os.path.dirname(__file__), name)
+def get_file_path(v):
+    return os.path.join(os.path.dirname(__file__), v)
 
-def read_file(name):
-    with open(get_file_path(name), 'r', encoding='utf-8') as f:
+def read_file(v):
+    with open(get_file_path(v), 'r', encoding='utf-8') as f:
         return f.read()
 
 def read_file_in_batches(name, batch_size, max_batches):
