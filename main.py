@@ -13,8 +13,6 @@ from pathlib import Path
 
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
-read_file = lambda v: Path(get_file_path(v)).read_text(encoding='utf-8')
-
 def read_file_in_batches(name, batch_size, max_batches):
     with open(fp(name), 'r', encoding='utf-8') as f:
         lines = []
@@ -36,7 +34,7 @@ def create_table():
     openai.api_key = os.getenv('OPENAI_API_KEY')
     batch_size = int(os.getenv('dfBatchSize'))
     max_batches = int(os.getenv('dfMaxBatches'))
-    prompt = read_file('prompt.md')
+    prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
     offset = 0
     for chunk in read_file_in_batches('queries.txt', batch_size, max_batches):
