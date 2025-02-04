@@ -57,12 +57,13 @@ def create_table():
             obj['line_number'] = offset + obj['line_number']
             all_results.append(obj)
         offset += len(chunk)
-    rules_list = []
+    r = []
     for obj in all_results:
         if obj.get('relevant') == 'no':
-            rules_list.extend(obj.get('rules', []))
-    rules_list.sort()
-    return '\n'.join(rules_list)
+            r.extend(obj.get('rules', []))
+    r = list(set(r)) # 2025-02-04 It removes duplicates
+    r.sort()
+    return '\n'.join(r)
 
 def main():
     table = create_table()
