@@ -54,7 +54,6 @@ def main():
             print(res)
             exit(1)
         for i in ᛡjson:
-            i['line_number'] = offset + i['line_number']
             all_results.append(i)
         offset += len(chunk)
     r = []
