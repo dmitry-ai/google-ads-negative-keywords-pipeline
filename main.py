@@ -9,15 +9,14 @@ from dotenv import load_dotenv
 import json
 import openai
 import os
+from pathlib import Path
 
-def get_file_path(v): return os.path.join(os.path.dirname(__file__), v)
+fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
-def read_file(v):
-    with open(get_file_path(v), 'r', encoding='utf-8') as f:
-        return f.read()
+read_file = lambda v: Path(get_file_path(v)).read_text(encoding='utf-8')
 
 def read_file_in_batches(name, batch_size, max_batches):
-    with open(get_file_path(name), 'r', encoding='utf-8') as f:
+    with open(fp(name), 'r', encoding='utf-8') as f:
         lines = []
         batches_count = 0
         for line in f:
