@@ -40,9 +40,9 @@ def main():
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
     offset = 0
+    ᛡopenai = openai.OpenAI()
     for chunk in read_file_in_batches('queries.txt'):
-        client = openai.OpenAI()
-        res = client.chat.completions \
+        res = ᛡopenai.chat.completions \
             .create(model='o1', messages=[{
                 'content': prompt.replace('`QUERIES`', '\n'.join(chunk)), 'role': 'user'
             }]) \
