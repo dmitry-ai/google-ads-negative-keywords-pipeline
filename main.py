@@ -17,6 +17,7 @@ from pathlib import Path
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
 def read_file_in_batches(name):
+    load_dotenv('config/public.env')
     batch_size = int(os.getenv('dfBatchSize'))
     max_batches = int(os.getenv('dfMaxBatches'))
     with open(fp(name), 'r', encoding='utf-8') as f:
@@ -34,7 +35,6 @@ def read_file_in_batches(name):
             yield lines
 
 def main():
-    load_dotenv('config/public.env')
     load_dotenv('config/private.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
