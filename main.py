@@ -41,10 +41,11 @@ def main():
     all_results = []
     offset = 0
     for chunk in read_file_in_batches('queries.txt'):
-        content = prompt.replace('`QUERIES`', '\n'.join(chunk))
         client = openai.OpenAI()
         res = client.chat.completions \
-            .create(model='o1', messages=[{'role': 'user', 'content': content}]) \
+            .create(model='o1', messages=[{
+                'content': prompt.replace('`QUERIES`', '\n'.join(chunk)), 'role': 'user'
+            }]) \
             .choices[0].message.content
         try:
             ᛡjson = json.loads(res)
