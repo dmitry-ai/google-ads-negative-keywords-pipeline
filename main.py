@@ -10,12 +10,15 @@ import json
 import openai
 import os
 
+def get_file_path(name):
+    return os.path.join(os.path.dirname(__file__), name)
+
 def get_prompt():
-    with open(os.path.join(os.path.dirname(__file__), 'prompt.md'), 'r', encoding='utf-8') as f:
+    with open(get_file_path('prompt.md'), 'r', encoding='utf-8') as f:
         return f.read()
 
 def read_in_batches(batch_size, max_batches):
-    with open(os.path.join(os.path.dirname(__file__), 'queries.txt'), 'r', encoding='utf-8') as f:
+    with open(get_file_path('queries.txt'), 'r', encoding='utf-8') as f:
         lines = []
         batches_count = 0
         for line in f:
