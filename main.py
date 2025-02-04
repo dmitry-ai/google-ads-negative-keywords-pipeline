@@ -16,14 +16,13 @@ from pathlib import Path
 # @used-by read_file_in_batches()
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
-def read_file_in_batches(name):
-    load_dotenv('config/public.env')
+def read_file_in_batches(f):
     batch_size = int(os.getenv('dfBatchSize'))
     max_batches = int(os.getenv('dfMaxBatches'))
-    with open(fp(name), 'r', encoding='utf-8') as f:
+    with open(fp(f), 'r', encoding='utf-8') as contents:
         lines = []
         batches_count = 0
-        for line in f:
+        for line in contents:
             lines.append(line.strip('\n'))
             if len(lines) == batch_size:
                 yield lines
@@ -36,6 +35,7 @@ def read_file_in_batches(name):
 
 def main():
     load_dotenv('config/private.env')
+    load_dotenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
