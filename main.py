@@ -44,8 +44,7 @@ def main():
         joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
-        r = client.chat.completions.create(model='o1', messages=[{'role': 'user', 'content': content}])
-        raw_response = r.choices[0].message.content
+        raw_response = client.chat.completions.create(model='o1', messages=[{'role': 'user', 'content': content}]).choices[0].message.content
         try:
             chunk_json = json.loads(raw_response)
         except json.JSONDecodeError:
