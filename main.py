@@ -10,8 +10,7 @@ import json
 import openai
 import os
 
-def get_file_path(v):
-    return os.path.join(os.path.dirname(__file__), v)
+def get_file_path(v): return os.path.join(os.path.dirname(__file__), v)
 
 def read_file(v):
     with open(get_file_path(v), 'r', encoding='utf-8') as f:
