@@ -1,3 +1,6 @@
+# 2025-02-04 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+# 1) «About negative keywords»: https://support.google.com/google-ads/answer/2453972
+# 2) «Add negative keywords to campaigns»: https://support.google.com/google-ads/answer/7102995
 from dotenv import load_dotenv
 import json
 import openai
