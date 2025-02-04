@@ -11,6 +11,9 @@ import openai
 import os
 from pathlib import Path
 
+# 2025-02-04
+# @used-by main()
+# @used-by read_file_in_batches()
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
 def read_file_in_batches(name, batch_size, max_batches):
@@ -28,7 +31,7 @@ def read_file_in_batches(name, batch_size, max_batches):
         if lines and batches_count < max_batches:
             yield lines
 
-def create_table():
+def main():
     load_dotenv('config/public.env')
     load_dotenv('config/private.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -62,11 +65,7 @@ def create_table():
             r.extend(obj.get('rules', []))
     r = list(set(r)) # 2025-02-04 It removes duplicates
     r.sort()
-    return '\n'.join(r)
-
-def main():
-    table = create_table()
-    print(table)
+    print('\n'.join(r))
 
 if __name__ == '__main__':
     main()
