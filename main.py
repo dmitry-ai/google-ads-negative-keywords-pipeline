@@ -36,7 +36,7 @@ def read_file_in_batches(name):
 def main():
     load_dotenv('config/public.env')
     load_dotenv('config/private.env')
-    openai.api_key = os.getenv('OPENAI_API_KEY')       
+    openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
     offset = 0
@@ -44,10 +44,7 @@ def main():
         joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
-        r = client.chat.completions.create(
-            model='o1',
-            messages=[{'role': 'user', 'content': content}]
-        )
+        r = client.chat.completions.create(model='o1', messages=[{'role': 'user', 'content': content}])
         raw_response = r.choices[0].message.content
         try:
             chunk_json = json.loads(raw_response)
