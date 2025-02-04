@@ -13,12 +13,12 @@ import os
 def get_file_path(name):
     return os.path.join(os.path.dirname(__file__), name)
 
-def get_prompt():
-    with open(get_file_path('prompt.md'), 'r', encoding='utf-8') as f:
+def read_file(name):
+    with open(get_file_path(name), 'r', encoding='utf-8') as f:
         return f.read()
 
-def read_in_batches(batch_size, max_batches):
-    with open(get_file_path('queries.txt'), 'r', encoding='utf-8') as f:
+def read_file_in_batches(name, batch_size, max_batches):
+    with open(get_file_path(name), 'r', encoding='utf-8') as f:
         lines = []
         batches_count = 0
         for line in f:
@@ -38,10 +38,10 @@ def create_table():
     openai.api_key = os.getenv('OPENAI_API_KEY')
     batch_size = int(os.getenv('dfBatchSize'))
     max_batches = int(os.getenv('dfMaxBatches'))
-    prompt = get_prompt()
+    prompt = read_file('prompt.md')
     all_results = []
     offset = 0
-    for chunk in read_in_batches(batch_size, max_batches):
+    for chunk in read_file_in_batches('queries.txt', batch_size, max_batches):
         joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
