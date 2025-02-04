@@ -38,7 +38,7 @@ def main():
     load_dotenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
-    all_results = []
+    rr = []
     ᛡopenai = openai.OpenAI()
     for chunk in read_file_in_batches('queries.txt'):
         res = ᛡopenai.chat.completions \
@@ -53,9 +53,9 @@ def main():
             print(res)
             exit(1)
         for i in ᛡjson:
-            all_results.append(i)
+            rr.append(i)
     r = []
-    for i in all_results:
+    for i in rr:
         if 'no' == i.get('relevant'):
             r.extend(i.get('rules', []))
     r = list(set(r)) # 2025-02-04 It removes duplicates
