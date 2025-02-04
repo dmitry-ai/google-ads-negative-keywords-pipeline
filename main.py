@@ -18,7 +18,7 @@ fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
 def read_file_in_batches(f):
     batch_size = int(os.getenv('dfBatchSize'))
-    max_batches = int(os.getenv('dfMaxBatches'))
+    max = int(os.getenv('dfMaxBatches'))
     with open(fp(f), 'r', encoding='utf-8') as contents:
         lines = []
         batches_count = 0
@@ -27,10 +27,10 @@ def read_file_in_batches(f):
             if len(lines) == batch_size:
                 yield lines
                 batches_count += 1
-                if batches_count == max_batches:
+                if batches_count == max:
                     return
                 lines = []
-        if lines and batches_count < max_batches:
+        if lines and batches_count < max:
             yield lines
 
 def main():
@@ -41,8 +41,7 @@ def main():
     all_results = []
     offset = 0
     for chunk in read_file_in_batches('queries.txt'):
-        joined_queries = '\n'.join(chunk)
-        content = prompt.replace('`QUERIES`', joined_queries)
+        content = prompt.replace('`QUERIES`', '\n'.join(chunk))
         client = openai.OpenAI()
         res = client.chat.completions \
             .create(model='o1', messages=[{'role': 'user', 'content': content}]) \
