@@ -58,9 +58,9 @@ def main():
             all_results.append(i)
         offset += len(chunk)
     r = []
-    for obj in all_results:
-        if obj.get('relevant') == 'no':
-            r.extend(obj.get('rules', []))
+    for i in all_results:
+        if 'no' == i.get('relevant'):
+            r.extend(i.get('rules', []))
     r = list(set(r)) # 2025-02-04 It removes duplicates
     r.sort()
     print('\n'.join(r))
