@@ -16,7 +16,9 @@ from pathlib import Path
 # @used-by read_file_in_batches()
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
-def read_file_in_batches(name, batch_size, max_batches):
+def read_file_in_batches(name):
+    batch_size = int(os.getenv('dfBatchSize'))
+    max_batches = int(os.getenv('dfMaxBatches'))
     with open(fp(name), 'r', encoding='utf-8') as f:
         lines = []
         batches_count = 0
@@ -34,13 +36,11 @@ def read_file_in_batches(name, batch_size, max_batches):
 def main():
     load_dotenv('config/public.env')
     load_dotenv('config/private.env')
-    openai.api_key = os.getenv('OPENAI_API_KEY')
-    batch_size = int(os.getenv('dfBatchSize'))
-    max_batches = int(os.getenv('dfMaxBatches'))
+    openai.api_key = os.getenv('OPENAI_API_KEY')       
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
     offset = 0
-    for chunk in read_file_in_batches('queries.txt', batch_size, max_batches):
+    for chunk in read_file_in_batches('queries.txt'):
         joined_queries = '\n'.join(chunk)
         content = prompt.replace('`QUERIES`', joined_queries)
         client = openai.OpenAI()
