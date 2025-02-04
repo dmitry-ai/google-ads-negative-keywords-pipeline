@@ -39,7 +39,6 @@ def main():
     openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     all_results = []
-    offset = 0
     ᛡopenai = openai.OpenAI()
     for chunk in read_file_in_batches('queries.txt'):
         res = ᛡopenai.chat.completions \
@@ -55,7 +54,6 @@ def main():
             exit(1)
         for i in ᛡjson:
             all_results.append(i)
-        offset += len(chunk)
     r = []
     for i in all_results:
         if 'no' == i.get('relevant'):
