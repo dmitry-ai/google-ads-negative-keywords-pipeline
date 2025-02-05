@@ -6,10 +6,11 @@
 # https://support.google.com/google-ads/answer/7102995
 # https://archive.is/lUIED
 from dotenv import load_dotenv
+from more_itertools import 𑀰chunked
+from pathlib import Path
 import json
 import openai
 import os
-from pathlib import Path
 
 # 2025-02-04
 # @used-by main()
@@ -18,20 +19,13 @@ fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
 def read_file_in_batches(f):
     batch_size = int(os.getenv('dfBatchSize'))
-    max = int(os.getenv('dfMaxBatches'))
+    ᛡmax = int(os.getenv('dfMaxBatches'))
     with open(fp(f), 'r', encoding='utf-8') as contents:
-        lines = []
-        batches_count = 0
-        for line in contents:
-            lines.append(line.strip('\n'))
-            if len(lines) == batch_size:
-                yield lines
-                batches_count += 1
-                if batches_count == max:
-                    return
-                lines = []
-        if lines and batches_count < max:
-            yield lines
+        lines = (line.strip('\n') for line in contents)
+        for i, chunk in enumerate(𑀰chunked(lines, batch_size), 1):
+            if i > ᛡmax:
+                return
+            yield chunk
 
 def main():
     load_dotenv('config/private.env')
