@@ -14,11 +14,11 @@ import os
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
 def batches(f):
-    batch_size = int(os.getenv('dfBatchSize'))
+    size = int(os.getenv('dfBatchSize'))
     ᛡmax = int(os.getenv('dfMaxBatches'))
-    with open(fp(f), 'r', encoding='utf-8') as contents:
-        lines = (line.strip('\n') for line in contents)
-        for i, chunk in enumerate(ⵗchunked(lines, batch_size), 1):
+    with open(fp(f), 'r', encoding='utf-8') as s:
+        lines = (line.strip('\n') for line in s)
+        for i, chunk in enumerate(ⵗchunked(lines, size), 1):
             if i > ᛡmax:
                 return
             yield chunk
