@@ -27,14 +27,13 @@ def read_file_in_batches(f):
                 return
             yield chunk
 
-def prompt(v: str) -> str: return Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
-
 def main():
     ⵗenv('config/private.env')
     ⵗenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     ᛡopenai = openai.OpenAI()
     r = []
+    prompt = lambda v: Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
     for chunk in read_file_in_batches('queries.txt'):
         intents = ᛡopenai.chat.completions \
             .create(model='o1', messages=[{
