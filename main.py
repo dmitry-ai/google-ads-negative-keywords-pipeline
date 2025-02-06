@@ -37,7 +37,7 @@ def main():
             r = res.choices[0].message.content
         except openai.BadRequestError:
             with open(fp('output/errors.log'), 'a') as f:
-                f.write(c)
+                f.write(v3)
             r = None
         return r
     for batch in batches('queries.txt'):
