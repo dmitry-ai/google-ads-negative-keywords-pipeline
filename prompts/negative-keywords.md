@@ -40,6 +40,8 @@ If the user query is not relevant to `C`, then build an `NK` for it.
 Try to keep `NK` short.
 ### 8.2.
 Try to make `NK` universal so that it matches not only the specific query 3.3, but also the largest possible number of other potential queries (based on 3.4), while ensuring that it does not match queries relevant to `C`.
+### 8.3.
+Если ты видишь, что `NK` получается слишком неуниверсальным (например, длинная последовательность цифр: «4029357733»), то либо найди более универсальный  `NK`, либо (если не получается найти более универсальный `NK`) исключи этот `NK` из общего результата.
 
 ## 9.
 As a result of processing `D` according to the rules of points 5-7, you will get a list of all `NK`.
