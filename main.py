@@ -31,28 +31,23 @@ def main():
     ⵗenv('config/private.env')
     ⵗenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
-    prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
-    rr = []
     ᛡopenai = openai.OpenAI()
+    pIntents = Path(fp('prompts/intents.md')).read_text(encoding='utf-8')
+    pNKs = Path(fp('prompts/negative-keywords.md')).read_text(encoding='utf-8')
+    r = []
     for chunk in read_file_in_batches('queries.txt'):
-        res = ᛡopenai.chat.completions \
+        intents = ᛡopenai.chat.completions \
             .create(model='o1', messages=[{
-                'content': prompt.replace('`QUERIES`', '\n'.join(chunk)), 'role': 'user'
+                'content': pIntents.replace('%QUERIES%', '\n'.join(chunk)), 'role': 'user'
             }]) \
             .choices[0].message.content
-        try:
-            ᛡjson = json.loads(res)
-        except json.JSONDecodeError:
-            print('OpenAI returned an invalid JSON response:')
-            print(res)
-            exit(1)
-        for i in ᛡjson:
-            rr.append(i)
-    r = []
-    for i in rr:
-        if 'no' == i.get('relevant'):
-            r.extend(i.get('rules', []))
-    r = list(set(r)) # 2025-02-04 It removes duplicates
+        nks = ᛡopenai.chat.completions \
+            .create(model='o1', messages=[{
+                'content': pNKs.replace('%INTENTS%', intents), 'role': 'user'
+            }]) \
+            .choices[0].message.content
+        r.extend(nks.splitlines())
+    r = list(dict.fromkeys(r))
     r.sort()
     print('\n'.join(r))
 
