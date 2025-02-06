@@ -5,7 +5,7 @@
 # 2) «Add negative keywords to campaigns»:
 # https://support.google.com/google-ads/answer/7102995
 # https://archive.is/lUIED
-from dotenv import load_dotenv as ⵗdotenv
+from dotenv import load_dotenv as ⵗenv
 from more_itertools import chunked as ⵗchunked
 from pathlib import Path
 import json
@@ -28,8 +28,8 @@ def read_file_in_batches(f):
             yield chunk
 
 def main():
-    ⵗdotenv('config/private.env')
-    ⵗdotenv('config/public.env')
+    ⵗenv('config/private.env')
+    ⵗenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     prompt = Path(fp('prompt.md')).read_text(encoding='utf-8')
     rr = []
