@@ -19,7 +19,7 @@ OPENAI_API_KEY = <your key>
 ### 2.3.
 The file with search queries: [`queries.txt`](https://github.com/dmitry-ai/google-ads-negative-keywords-pipeline/blob/main/queries.txt)
 ### 2.4. 
-The file with public parameters: [`config/public.env`](https://github.com/dmitry-ai/google-ads-negative-keywords-pipeline/blob/main/config/public.env)
+The file with public parameters: [`config/public.env`](https://github.com/dmitry-ai/google-ads-negative-keywords-pipeline/blob/main/config/public.env)  
 The program has 2 public parameters: `dfBatchSize` and `dfMaxBatches`.
 #### `dfBatchSize`
 This is the number of search queries for simultaneous processing.
