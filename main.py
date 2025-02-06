@@ -8,16 +8,12 @@
 from dotenv import load_dotenv as ⵗenv
 from more_itertools import chunked as ⵗchunked
 from pathlib import Path
-import json
 import openai
 import os
 
-# 2025-02-04
-# @used-by main()
-# @used-by read_file_in_batches()
 fp = lambda v: os.path.join(os.path.dirname(__file__), v)
 
-def read_file_in_batches(f):
+def batches(f):
     batch_size = int(os.getenv('dfBatchSize'))
     ᛡmax = int(os.getenv('dfMaxBatches'))
     with open(fp(f), 'r', encoding='utf-8') as contents:
@@ -38,9 +34,9 @@ def main():
         c = prompt(v1).replace(f'%{v2}%', v3)
         res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': c, 'role': 'user'}])
         return res.choices[0].message.content
-    for chunk in read_file_in_batches('queries.txt'):
-        intents = query('intents', 'QUERIES', '\n'.join(chunk))
-        nks = query('negative-keywords', 'INTENTS', intents)        
+    for batch in batches('queries.txt'):
+        intents = query('intents', 'QUERIES', '\n'.join(batch))
+        nks = query('negative-keywords', 'INTENTS', intents)
         r.extend(nks.splitlines())
     r = list(dict.fromkeys(r))
     r.sort()
