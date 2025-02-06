@@ -27,7 +27,7 @@ def read_file_in_batches(f):
                 return
             yield chunk
 
-def prompt(s: str) -> str: return Path(fp(f'prompts/{s}.md')).read_text(encoding='utf-8')
+def prompt(v: str) -> str: return Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
 
 def main():
     ⵗenv('config/private.env')
