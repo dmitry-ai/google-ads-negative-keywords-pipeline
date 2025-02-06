@@ -34,12 +34,13 @@ def main():
     ᛡopenai = openai.OpenAI()
     r = []
     prompt = lambda v: Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
-    def query(v: str) -> str:
-        res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': v, 'role': 'user'}])
+    def query(v1, v2, v3) -> str:
+        c = prompt(v1).replace(f'%{v2}%', v3)
+        res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': c, 'role': 'user'}])
         return res.choices[0].message.content
     for chunk in read_file_in_batches('queries.txt'):
-        intents = query(prompt('intents').replace('%QUERIES%', '\n'.join(chunk)))
-        nks = query(prompt('negative-keywords').replace('%INTENTS%', intents))
+        intents = query('intents', 'QUERIES', '\n'.join(chunk))
+        nks = query('negative-keywords', 'INTENTS', intents)        
         r.extend(nks.splitlines())
     r = list(dict.fromkeys(r))
     r.sort()
