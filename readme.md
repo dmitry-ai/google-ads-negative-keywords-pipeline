@@ -22,8 +22,8 @@ The file with search queries: [`queries.txt`](https://github.com/dmitry-ai/googl
 The file with public parameters: [`config/public.env`](https://github.com/dmitry-ai/google-ads-negative-keywords-pipeline/blob/main/config/public.env)  
 The program has 2 public parameters: `dfBatchSize` and `dfMaxBatches`.
 #### `dfBatchSize`
-This is the number of search queries for simultaneous processing.
+This is the number of search queries for simultaneous processing.  
 The higher the value, the fewer resources OpenAI will devote to each query, and this will reduce the quality of the OpenAI response.
 #### `dfMaxBatches`
-This is the number of batches (each of size `dfBatchSize`) that the program will process.
+This is the number of batches (each of size `dfBatchSize`) that the program will process.  
 Limiting this value saves money and time when testing the program.
