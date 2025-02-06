@@ -29,4 +29,4 @@ Its keys must be the queries from point 1, and the values of the keys must be yo
 ### 4.2.
 Do not return anything besides JSON.
 ### 4.3.
-Do not wrap the JSON response in backticks (```json) or anything else.
+Do not wrap the JSON response in backticks or anything else.
