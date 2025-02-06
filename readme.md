@@ -15,7 +15,7 @@ python main.py > output/negative-keywords.txt
 ```
 
 ### 2.2. 
-The program uses the OpenAI API, model `o1`.  
+The program uses the OpenAI API, model `o3-mini`.  
 
 ### 2.2.
 In order for the program to work, an API key is required.  

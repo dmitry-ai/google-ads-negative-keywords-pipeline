@@ -33,7 +33,7 @@ def main():
     def query(v1, v2, v3):
         c = prompt(v1).replace(f'%{v2}%', v3)
         try:
-            res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': c, 'role': 'user'}])
+            res = ᛡopenai.chat.completions.create(model='o3-mini', messages=[{'content': c, 'role': 'user'}])
             r = res.choices[0].message.content
         except openai.BadRequestError:
             with open(fp('output/errors.log'), 'a') as f:
