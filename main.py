@@ -27,23 +27,23 @@ def read_file_in_batches(f):
                 return
             yield chunk
 
+def prompt(s: str) -> str: return Path(fp(f'prompts/{s}.md')).read_text(encoding='utf-8')
+
 def main():
     ⵗenv('config/private.env')
     ⵗenv('config/public.env')
     openai.api_key = os.getenv('OPENAI_API_KEY')
     ᛡopenai = openai.OpenAI()
-    pIntents = Path(fp('prompts/intents.md')).read_text(encoding='utf-8')
-    pNKs = Path(fp('prompts/negative-keywords.md')).read_text(encoding='utf-8')
     r = []
     for chunk in read_file_in_batches('queries.txt'):
         intents = ᛡopenai.chat.completions \
             .create(model='o1', messages=[{
-                'content': pIntents.replace('%QUERIES%', '\n'.join(chunk)), 'role': 'user'
+                'content': prompt('intents').replace('%QUERIES%', '\n'.join(chunk)), 'role': 'user'
             }]) \
             .choices[0].message.content
         nks = ᛡopenai.chat.completions \
             .create(model='o1', messages=[{
-                'content': pNKs.replace('%INTENTS%', intents), 'role': 'user'
+                'content': prompt('negative-keywords').replace('%INTENTS%', intents), 'role': 'user'
             }]) \
             .choices[0].message.content
         r.extend(nks.splitlines())
