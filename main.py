@@ -27,10 +27,6 @@ def read_file_in_batches(f):
                 return
             yield chunk
 
-def queryAPI(api, v):
-    res = api.chat.completions.create(model='o1', messages=[{'content': v, 'role': 'user'}])
-    return res.choices[0].message.content
-
 def main():
     ⵗenv('config/private.env')
     ⵗenv('config/public.env')
@@ -38,9 +34,12 @@ def main():
     ᛡopenai = openai.OpenAI()
     r = []
     prompt = lambda v: Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
+    def query(v: str) -> str:
+        res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': v, 'role': 'user'}])
+        return res.choices[0].message.content
     for chunk in read_file_in_batches('queries.txt'):
-        intents = queryAPI(ᛡopenai, prompt('intents').replace('%QUERIES%', '\n'.join(chunk)))
-        nks = queryAPI(ᛡopenai, prompt('negative-keywords').replace('%INTENTS%', intents))
+        intents = query(prompt('intents').replace('%QUERIES%', '\n'.join(chunk)))
+        nks = query(prompt('negative-keywords').replace('%INTENTS%', intents))
         r.extend(nks.splitlines())
     r = list(dict.fromkeys(r))
     r.sort()
