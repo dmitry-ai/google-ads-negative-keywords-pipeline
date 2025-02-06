@@ -30,14 +30,22 @@ def main():
     ᛡopenai = openai.OpenAI()
     r = []
     prompt = lambda v: Path(fp(f'prompts/{v}.md')).read_text(encoding='utf-8')
-    def query(v1, v2, v3) -> str:
+    def query(v1, v2, v3):
         c = prompt(v1).replace(f'%{v2}%', v3)
-        res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': c, 'role': 'user'}])
-        return res.choices[0].message.content
+        try:
+            res = ᛡopenai.chat.completions.create(model='o1', messages=[{'content': c, 'role': 'user'}])
+            r = res.choices[0].message.content
+        except openai.BadRequestError:
+            with open(fp('output/errors.log'), 'a') as f:
+                f.write(c)
+            r = None
+        return r
     for batch in batches('queries.txt'):
         intents = query('intents', 'QUERIES', '\n'.join(batch))
-        nks = query('negative-keywords', 'INTENTS', intents)
-        r.extend(nks.splitlines())
+        if intents is not None:
+            nks = query('negative-keywords', 'INTENTS', intents)
+            if nks is not None:
+                r.extend(nks.splitlines())
     r = list(dict.fromkeys(r))
     r.sort()
     print('\n'.join(r))
